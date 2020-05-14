@@ -5,7 +5,7 @@ class LIF:
     def __init__(self):
         self.P_min = -1
         self.P_rest = 0
-        self.P_thres = 10
+        self.P_thres = 4
         self.P_spike = 1
         self.pot_plot = []
 
@@ -43,3 +43,21 @@ class LIF:
 
     def update_threshold(self, th):
         self.P_thres = th
+
+class poisson:
+    def __init__(self):
+        self.r = 0
+        self.dt = 0
+        self.spikes = [0]
+
+    def execute(self, r, T):
+        self.spikes = []
+        self.r = r
+        self.dt = T[1] - T[0]
+        rv = np.random.rand(np.size(T))
+        for i in range(len(rv)):
+            if rv[i] <= self.r*self.dt:
+                self.spikes.append(1)
+            else:
+                self.spikes.append(0)
+        return np.array(self.spikes)
