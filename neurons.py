@@ -25,7 +25,7 @@ class LIF:
         else:
             return self.P_rest
 
-    def execute(self, t, S):
+    def execute(self, S, t):
         if t <= self.t_rest:
             self.mem_pot = self.P_rest
             self.pot_plot.append(self.mem_pot)
