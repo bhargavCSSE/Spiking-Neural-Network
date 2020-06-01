@@ -43,6 +43,12 @@ class LIF:
 
     def update_threshold(self, th):
         self.P_thres = th
+    
+    def reset_neuron(self):
+        self.out_array = []
+        self.pot_plot = []
+        self.mem_pot = self.P_rest
+        self.t_rest = 0
 
 class poisson:
     def __init__(self):
