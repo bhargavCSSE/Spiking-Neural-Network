@@ -3,7 +3,7 @@ import random
 
 class LIF:
     def __init__(self):
-        self.P_min = -1
+        self.P_min = -5
         self.P_rest = 0
         self.P_thres = 4
         self.P_spike = 1
