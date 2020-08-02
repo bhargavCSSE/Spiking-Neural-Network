@@ -221,7 +221,7 @@ for rtt in RT:
         parser.add_argument('--algorithm', dest='algorithm', default='ac')
         parser.add_argument('--features', dest='features', default='fourier')
         parser.add_argument('--num_trials', dest='num_trials', default=1)
-        parser.add_argument('--num_episodes', dest='num_episodes', default=3)
+        parser.add_argument('--num_episodes', dest='num_episodes', default=1000)
         parser.add_argument('--plot', dest='plot', action='store_true')
 
         args = parser.parse_args()

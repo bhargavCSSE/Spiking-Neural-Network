@@ -1,6 +1,3 @@
-gamma = [0.25, 0.5, 0.75, 1]
-data = {}
-
 import numpy as np
 import pandas as pd
 import math
@@ -11,6 +8,9 @@ import pdb
 import pickle
 from gridworld import GridWorld687
 import copy
+
+gamma = [0.25, 0.5, 0.75, 1]
+data = {}
 
 for gam in gamma:
     np.set_printoptions(precision=2)
@@ -215,7 +215,7 @@ for gam in gamma:
         algorithm = 'sarsa'
         selection = 'egreedy'
         num_trials = 1
-        num_episodes = 5
+        num_episodes = 1000
         plot = True
         num = 1
 

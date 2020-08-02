@@ -226,7 +226,7 @@ for gam in Gamma:
         features = 'fourier'
         selection = 'egreedy'
         num_trials = 1
-        num_episodes = 10
+        num_episodes = 1000
         plot = False
 
     if __name__ == "__main__":
