@@ -9,7 +9,7 @@ import pickle
 from gridworld import GridWorld687
 import copy
 
-gamma = [0.25, 0.5, 0.75, 1]
+gamma = [0.25, 0.5, 0.75, 0.9, 1]
 data = {}
 
 for gam in gamma:
@@ -215,7 +215,7 @@ for gam in gamma:
         algorithm = 'sarsa'
         selection = 'egreedy'
         num_trials = 1
-        num_episodes = 1000
+        num_episodes = 250
         plot = True
         num = 1
 
