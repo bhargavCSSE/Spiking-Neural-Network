@@ -9,10 +9,10 @@ from matplotlib import pyplot as plt
 import pickle
 import gym
 
-Gamma = [0.25, 0.5, 0.75, 1]
+Population = [2, 5, 10, 50, 100]
 data = {}
 
-for gam in Gamma:
+for pop in Population:
     
     #Constants
     mod_F = 10
@@ -90,7 +90,7 @@ for gam in Gamma:
                 state = self.cartpole.reset()
                 e_theta = np.zeros_like(theta)
                 e_v = np.zeros(int(math.pow(self.order+1, self.num_states)))
-                rt = 1; gamma = gam
+                rt = 1; gamma = 1
                 count = 0
                 sigma = 1
                 while abs(state[0]) < 3 and abs(state[2]) < math.pi/2 and abs(state[3]) < math.pi and count < 1010:
@@ -140,7 +140,7 @@ for gam in Gamma:
             self.inputs = 4
             self.hidden = 200
             self.outputs = 2
-            self.ih_weights = 0.01*np.random.rand(2, self.hidden, self.inputs)
+            self.ih_weights = 0.01*np.random.rand(pop, self.hidden, self.inputs) # Population coding
             self.ih_bias = np.random.rand(self.hidden)
             self.ho_weights = 0.01*np.random.rand(self.outputs, self.hidden)
             self.ho_bias = np.random.rand(self.outputs)
@@ -169,9 +169,9 @@ for gam in Gamma:
             inputs = state
             self.in_spikes = state
 
-            self.hz = np.zeros((2, self.hidden))
-            self.h_spikes = np.ones((2, self.hidden))
-            for i in range(2):
+            self.hz = np.zeros((pop, self.hidden))          # Population coding
+            self.h_spikes = np.ones((pop, self.hidden))     # Population coding
+            for i in range(pop):                            # Population coding
                 z = np.matmul(self.ih_weights[i], inputs)
                 p = 1/(1 + np.exp(-2*z))
                 self.h_spikes[i] = (p > np.random.rand(self.hidden)).astype(int)
@@ -226,7 +226,7 @@ for gam in Gamma:
         features = 'fourier'
         selection = 'egreedy'
         num_trials = 1
-        num_episodes = 1000
+        num_episodes = 2000
         plot = False
 
     if __name__ == "__main__":
@@ -257,7 +257,7 @@ for gam in Gamma:
             plt.xlabel('Number of episodes')
             plt.show()
 
-    data[gam] = np.array(rewards_trials).reshape(-1)
+    data[pop] = np.array(rewards_trials).reshape(-1)
 
 d = pd.DataFrame(data)
-d.to_csv("gamma_test_cartpole.csv")
+d.to_csv("pop_test_cartpole.csv")
