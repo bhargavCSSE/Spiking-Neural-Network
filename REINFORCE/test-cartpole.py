@@ -9,10 +9,10 @@ from matplotlib import pyplot as plt
 import pickle
 import gym
 
-Population = [2, 5, 10, 50, 100]
+STEP = [0.001, 0.005, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 2.0]
 data = {}
 
-for pop in Population:
+for step in STEP:
     
     #Constants
     mod_F = 10
@@ -140,7 +140,7 @@ for pop in Population:
             self.inputs = 4
             self.hidden = 200
             self.outputs = 2
-            self.ih_weights = 0.01*np.random.rand(pop, self.hidden, self.inputs) # Population coding
+            self.ih_weights = 0.01*np.random.rand(10, self.hidden, self.inputs) # Population coding
             self.ih_bias = np.random.rand(self.hidden)
             self.ho_weights = 0.01*np.random.rand(self.outputs, self.hidden)
             self.ho_bias = np.random.rand(self.outputs)
@@ -169,9 +169,9 @@ for pop in Population:
             inputs = state
             self.in_spikes = state
 
-            self.hz = np.zeros((pop, self.hidden))          # Population coding
-            self.h_spikes = np.ones((pop, self.hidden))     # Population coding
-            for i in range(pop):                            # Population coding
+            self.hz = np.zeros((10, self.hidden))          # Population coding
+            self.h_spikes = np.ones((10, self.hidden))     # Population coding
+            for i in range(10):                            # Population coding
                 z = np.matmul(self.ih_weights[i], inputs)
                 p = 1/(1 + np.exp(-2*z))
                 self.h_spikes[i] = (p > np.random.rand(self.hidden)).astype(int)
@@ -237,7 +237,7 @@ for pop in Population:
         rewards_trials = []
 
 
-        step_size = 0.001 # Sarsa, fourier 0.001
+        step_size = step # Sarsa, fourier 0.001
         epsilon = 0.1
         
 
@@ -257,7 +257,7 @@ for pop in Population:
             plt.xlabel('Number of episodes')
             plt.show()
 
-    data[pop] = np.array(rewards_trials).reshape(-1)
+    data[step] = np.array(rewards_trials).reshape(-1)
 
 d = pd.DataFrame(data)
-d.to_csv("pop_test_cartpole.csv")
+d.to_csv("fixed_step_test_cartpole.csv")
