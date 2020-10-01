@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 import pickle
 import gym
 
-STEP = [0.001, 0.005, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 2.0]
+STEP = ['fixed', 'variable']
 data = {}
 
 for step in STEP:
@@ -84,9 +84,13 @@ for step in STEP:
             w_v = np.zeros(int(math.pow(self.order+1, self.num_states)))
             alpha = 0.001
             for i in range(num_episodes):
-                #if i > 500:
-                #    self.alpha = 0.001
-                #state = np.zeros(4)
+
+                if (step == 'variable'):
+                    if i < 100:
+                        self.alpha = 1
+                    else:
+                        self.alpha = 2/i
+
                 state = self.cartpole.reset()
                 e_theta = np.zeros_like(theta)
                 e_v = np.zeros(int(math.pow(self.order+1, self.num_states)))
@@ -200,7 +204,7 @@ for step in STEP:
             else:
                 self.alpha = 0.001
 
-            for i in range(2):
+            for i in range(2):          # Population coding
                 if i == action:
                     self.ih_weights[i] += self.alpha*tderror*np.outer(2*self.h_spikes[i]/self.hz[i], self.in_spikes)
                 else:
@@ -237,7 +241,7 @@ for step in STEP:
         rewards_trials = []
 
 
-        step_size = step # Sarsa, fourier 0.001
+        step_size = 0.001 # Sarsa, fourier 0.001
         epsilon = 0.1
         
 
@@ -260,4 +264,4 @@ for step in STEP:
     data[step] = np.array(rewards_trials).reshape(-1)
 
 d = pd.DataFrame(data)
-d.to_csv("fixed_step_test_cartpole.csv")
+d.to_csv("var_step_test_cartpole.csv")
