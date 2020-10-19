@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 import pickle
 import gym
 
-STEP = ['fixed', 'variable']
+STEP = ['variable']
 data = {}
 
 for step in STEP:
@@ -134,7 +134,7 @@ for step in STEP:
                     state = new_state
                     count += 1
 
-                print("Reward after %s episodes: %s" %(i, count))
+                # print("Reward after %s episodes: %s" %(i, count))
                 rewards.append(count)
             return rewards
 
@@ -232,7 +232,7 @@ for step in STEP:
         parser.add_argument('--algorithm', dest='algorithm', default='sarsa')
         parser.add_argument('--features', dest='features', default='fourier')
         parser.add_argument('--selection', dest='selection', default='egreedy')
-        parser.add_argument('--num_trials', dest='num_trials', default=1)
+        parser.add_argument('--num_trials', dest='num_trials', default=20)
         parser.add_argument('--num_episodes', dest='num_episodes', default=2000)
         parser.add_argument('--plot', dest='plot', action='store_false')
 
@@ -251,6 +251,7 @@ for step in STEP:
             td_cp = ActorCritic(order=5, epsilon=epsilon, step_size=step_size, num_states=4)
             rewards = td_cp.run_actor_critic(int(args.num_episodes), features='fourier')
             rewards_trials.append(rewards)
+            data[i] = rewards
 
 
         if args.plot:
@@ -266,7 +267,11 @@ for step in STEP:
         # pickle.dump(rewards_trials, f)
 
 
-    data[step] = np.array(rewards_trials).reshape(-1)
+#     data[step] = np.array(rewards_trials).reshape(-1)
 
 d = pd.DataFrame(data)
-d.to_csv("var_step2_test_cartpole.csv")
+dat_mean = d.mean(axis=1)
+dat_std = d.std(axis=1)
+d['mean'] = dat_mean
+d['std'] = dat_std
+d.to_csv("test_cartpole.csv")
