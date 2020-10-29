@@ -273,5 +273,5 @@ d = pd.DataFrame(data)
 dat_mean = d.mean(axis=1)
 dat_std = d.std(axis=1)
 d['mean'] = dat_mean
-d['std'] = dat_std
+d['std'] = dat_stde
 d.to_csv("test_cartpole.csv")
